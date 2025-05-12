@@ -1,15 +1,37 @@
 'use client';
 
-import { useRef } from 'react';
+import { useRef, useEffect } from 'react';
 
 const SharkSVG = () => {
   const sharkRef = useRef<SVGSVGElement>(null);
+
+  useEffect(() => {
+    const shark = sharkRef.current;
+    if (shark) {
+      const handleMouseMove = (e: MouseEvent) => {
+        const rect = shark.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        
+        const angleX = (x - centerX) / 20;
+        const angleY = (y - centerY) / 20;
+        
+        shark.style.transform = `perspective(1000px) rotateX(${-angleY}deg) rotateY(${angleX}deg)`;
+      };
+
+      shark.addEventListener('mousemove', handleMouseMove);
+      return () => shark.removeEventListener('mousemove', handleMouseMove);
+    }
+  }, []);
 
   return (
     <svg
       ref={sharkRef}
       viewBox="0 0 400 400"
-      className="w-full h-full"
+      className="w-full h-full transition-transform duration-200"
     >
       {/* Shark Body */}
       <g id="shark-body" className="animate-float">
@@ -18,6 +40,7 @@ const SharkSVG = () => {
           fill="#2C3E50"
           stroke="#34495E"
           strokeWidth="4"
+          className="flash"
         />
         
         {/* Shark Fin */}
@@ -26,6 +49,7 @@ const SharkSVG = () => {
           fill="#2C3E50"
           stroke="#34495E"
           strokeWidth="4"
+          className="animate-sway"
         />
         
         {/* Shark Eye */}
@@ -34,12 +58,14 @@ const SharkSVG = () => {
           cy="180"
           r="10"
           fill="white"
+          className="pulse"
         />
         <circle
           cx="250"
           cy="180"
           r="5"
           fill="black"
+          className="animate-neon"
         />
         
         {/* Shark Mouth */}
@@ -48,6 +74,7 @@ const SharkSVG = () => {
           fill="none"
           stroke="#34495E"
           strokeWidth="4"
+          className="animate-gradient"
         />
       </g>
 
@@ -58,31 +85,44 @@ const SharkSVG = () => {
           fill="none"
           stroke="#E74C3C"
           strokeWidth="8"
+          className="rainbow"
         />
         <path
           d="M250 150 C 300 150, 320 200, 300 250"
           fill="none"
           stroke="#E74C3C"
           strokeWidth="8"
+          className="rainbow"
         />
         <circle
           cx="150"
           cy="150"
           r="20"
           fill="#E74C3C"
+          className="pulse"
         />
         <circle
           cx="250"
           cy="150"
           r="20"
           fill="#E74C3C"
+          className="pulse"
         />
         <path
           d="M150 150 L 250 150"
           fill="none"
           stroke="#E74C3C"
           strokeWidth="8"
+          className="rainbow"
         />
+      </g>
+
+      {/* Decorative Elements */}
+      <g className="animate-float delay-200">
+        <circle cx="100" cy="100" r="5" fill="#FF00DE" className="flash" />
+        <circle cx="300" cy="100" r="5" fill="#00FFDE" className="flash" />
+        <circle cx="100" cy="300" r="5" fill="#00FFDE" className="flash" />
+        <circle cx="300" cy="300" r="5" fill="#FF00DE" className="flash" />
       </g>
     </svg>
   );
