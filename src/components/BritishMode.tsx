@@ -3,9 +3,7 @@ interface BritishModeProps {
 }
 
 export default function BritishMode({ onTurnOff }: BritishModeProps) {
-  useEffect(() => {
-    // Add any initialization logic here
-  }, []);
+
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-red-600 via-white to-blue-800 flex flex-col items-center justify-center">
