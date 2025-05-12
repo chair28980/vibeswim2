@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import SharkSVG from '@/components/SharkSVG';
 import PartyMode from '@/components/PartyMode';
 import BritishMode from '@/components/BritishMode';
